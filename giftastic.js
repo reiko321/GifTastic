@@ -14,21 +14,31 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (response) {
 
-            var gifDiv = $("<div>");
+            console.log('===RESPONSE===', response)
 
+                
+
+            for (var i = 0; i < response.data.length; i++) {
+
+            console.log("=== in the LOOP! ===");
+
+            var gifDiv = $("<div>");
+            
             var Rating = response.data[i].rating;
 
             var pOne = $("<p>").text("Rating: " + Rating);
 
             gifDiv.append(pOne);
 
-            var imgURL = response.data[i].url;
+            var imgURL = response.data[i].images.fixed_height.url;
 
             var image = $("<img>").attr("src", imgURL);
 
             gifDiv.append(image);
 
             $("#buttons-view").prepend(gifDiv);
+
+            }
         });
 
     }
