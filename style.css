@@ -1,0 +1,36 @@
+#jumbotron {
+    background-color: blueviolet;
+    text-align: center;
+}
+
+#title {
+	color: white;
+    font-family: 'Catamaran', sans-serif;
+    text-align: center;
+}
+
+p,
+h5 {
+	color: white;
+    font-size: 15px;
+    text-align: center;
+}
+
+h3 {
+	color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.grid {
+    	margin: 0 auto;
+    display: grid;
+    text-align: center;
+}
+
+.grid-item {
+    	margin: 5px;
+    	text-align: center;
+    	display: inline-block;
+    	list-style-type: none;
+}

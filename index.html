@@ -2,32 +2,49 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="giftastic.js"></script>
+    <title>Gif-tastic</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- Link to Masonry Layout Library -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Magic GIF Button</h1>
+<div class="container">
+	<div class="jumbotron text-center" id="jumbotron">
+		<h1 id="title">Gif-Tastic!!</h1>
+		<h5>Click a button to enjoy some Giphy Goodness! Click any of the images to see them in motion.</h5>
+		<h5>Search for your favorite Topic... or cats. Whatever.</h5>
+		<h3>We don't judge.</h3>
+		<br><br>
+    	<div class="container">
+			<div class="row">
+				<div class="col-xs-9">
+					<div class="btn-group" role="group" id="newButtonDiv">
+        			</div>
+        		</div>
+				<div class="col-xs-2">	
+                    	<input type="text" class="form-control"  placeholder="Search" >
+            	</div>
+            	<div class="col-xs-1">
+                    			<input class="btn btn-default" type="button" value="Search" id="searchBtn">            		
+        		</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-        <div id="buttons-view"></div>
+	<div class="container">
+		<div class="grid">
+			<div id="imageHolder">
+			
+			</div>
+		</div>
+	</div>
 
-        <form id="gif-form">
-            <label for="gif-input">Create a GIF Catagory!</label>
-            <input type="text" id="gif-input">
-            <br>
 
-            <input id="add-gif" type="submit" value="Create a GIF Catagory">
-        </form>
-
-        <div id="buttons-view"></div>
-    </div>
-
-    
 </body>
+<script type="text/javascript" src="giftastic.js"></script>
 
 </html>

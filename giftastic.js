@@ -1,77 +1,97 @@
-$(document).ready(function () {
 
-    var gifArray = ["Cats", "Dogs", "Ouch"];
+let topics = ["I'm Out", "Falling", "Simpsons", "LOL", "Puppies"];
 
-    function displayGifInfo() {
+$(document).ready(function() {
+  
+  function displayButtons() {
+    for (let i = 0; i < topics.length; i++) {
+      let newButton = $("<button>");
+      newButton.addClass("btn btn-default topicBtn");
+      newButton.attr("type", "button");
+      newButton.append(topics[i]);
+      newButton.attr("value", topics[i]);
+      $("#newButtonDiv").append(newButton);
 
-        var gif = $(this).attr("data-name");
-
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=pQLNJwaU6hjQ7tQ5Oewl52mK4Un9YMTS&limit=10&rating=pg-13";
-
-        // Creating an AJAX call
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-
-            console.log('===RESPONSE===', response)
-
-                
-
-            for (var i = 0; i < response.data.length; i++) {
-
-            console.log("=== in the LOOP! ===");
-
-            var gifDiv = $("<div>");
-            
-            var Rating = response.data[i].rating;
-
-            var pOne = $("<p>").text("Rating: " + Rating);
-
-            gifDiv.append(pOne);
-
-            var imgURL = response.data[i].images.fixed_height.url;
-
-            var image = $("<img>").attr("src", imgURL);
-
-            gifDiv.append(image);
-
-            $("#buttons-view").prepend(gifDiv);
-
-            }
-        });
-
+      console.log(topics);
     }
+  }
+  debugger;
+  displayButtons();
 
-    function renderButtons() {
+  function getGifs(topic) {
+    let queryURL =
+      "https://api.giphy.com/v1/gifs/search?q=" +
+      topic +
+      "&api_key=pQLNJwaU6hjQ7tQ5Oewl52mK4Un9YMTS&limit=10";
 
-        $("#buttons-view").empty();
+    console.log(queryURL);
 
-        for (var i = 0; i < gifArray.length; i++) {
-
-            var a = $("<button>");
-
-            a.addClass("gif-btn");
-
-            a.attr("data-name", gifArray[i]);
-
-            a.text(gifArray[i]);
-
-            $("#buttons-view").append(a);
-        }
-    }
-
-    $("#add-gif").on("click", function (event) {
-        event.preventDefault();
-
-        var gif = $("#gif-input").val().trim();
-
-        gifArray.push(gif);
-
-        renderButtons();
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+      console.log(response.data);
+      addImages(response);
     });
+  }
 
-    $(document).on("click", ".gif-btn", displayGifInfo);
+  function addImages(response) {
+    $("#imageHolder").empty();
 
-    renderButtons();
+    for (let j = 0; j < response.data.length; j++) {
+      let newGif = $("<img>");
+      newGif.addClass("newGifs img-thumbnail grid-item");
+      newGif.attr("src", response.data[j].images.fixed_width_still.url);
+      newGif.attr("data-state", "still");
+      newGif.attr("data-still", response.data[j].images.fixed_width_still.url);
+      newGif.attr("data-animate", response.data[j].images.fixed_width.url);
+
+      let gifRating = $("<p>");
+      gifRating.append("Rating: " + response.data[j].rating);
+
+      let gifPlusRating = $("<div>");
+      gifPlusRating.append(newGif, gifRating);
+      gifPlusRating.addClass("grid-item");
+      $("#imageHolder").append(gifPlusRating);
+    }
+  }
+
+  $(document).on("click", ".newGifs", function() {
+    let state = $(this).attr("data-state");
+
+    if (state === "still") {
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
+    }
+  });
+
+  $(".grid").masonry({
+    itemSelector: ".grid-item",
+    columnWidth: 950,
+    isFitWidth: true
+  });
+
+  $(document).on("click", ".topicBtn", function() {
+    console.log("click");
+    getGifs($(this).attr("value"));
+    console.log($(this).attr("value"));
+  });
+
+  $("#searchBtn").on("click", function() {
+    event.preventDefault();
+
+    let searchWord = $(".form-control").val();
+    console.log(searchWord);
+    $(".form-control").empty();
+
+    topics.push(searchWord);
+    $("#newButtonDiv").empty();
+    displayButtons();
+    getGifs(searchWord);
+
+  });
+
 });
